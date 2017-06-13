@@ -107,11 +107,11 @@ int main(int argc ,char**argv)
   
   int FinalSize=atoi(argv[3]);
   int err=vcg::tri::io::Importer<MyMesh>::Open(mesh,argv[1]);
-  if(err)
+  /*if(err)
   {
     printf("Unable to open mesh %s : '%s'\n",argv[1],vcg::tri::io::Importer<MyMesh>::ErrorMsg(err));
     exit(-1);
-  }
+  }*/
   printf("mesh loaded %d %d \n",mesh.vn,mesh.fn);
 
   TriEdgeCollapseQuadricParameter qparams;
