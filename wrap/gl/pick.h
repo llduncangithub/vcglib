@@ -41,7 +41,7 @@ class GLPickTri
   typedef typename MESH_TYPE::VertexPointer  VertexPointer;
   typedef typename MESH_TYPE::VertexType  VertexType;
 
-private:
+public:
 
  static CoordType Proj(const Eigen::Matrix<ScalarType,4,4> &M, const ScalarType * viewport, const CoordType &p)
   {
