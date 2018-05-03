@@ -71,7 +71,7 @@ namespace math {
   {
     for(int i = 0; i < 5; i++)
       for(int j = 0; j < 5; j++)
-        r[j] = v[j]*m[j][i];
+        r[j] += v[j]*m[j][i];
   }
 
   void inline normalize_vec5(ScalarType v[5])
