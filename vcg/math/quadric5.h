@@ -126,7 +126,7 @@ namespace math {
   }
 
   /* subtracts symmetric matrix */
-  void inline sub_symmat5(ScalarType dest[15],ScalarType m[15])
+  void inline sub_symmat5(ScalarType dest[15],const ScalarType m[15])
   {
     for(int i = 0; i < 15; i++)
       dest[i] -= m[i];
@@ -412,50 +412,52 @@ void ComputeE1E2 (const ScalarType p[5],	const	ScalarType q[5],	const	ScalarType
 
 // Given two orthonormal 5D vectors lying on the plane and one of the three points of the triangle compute the quadric.
 // Note it uses the same notation of the original garland 98 paper.
-void ComputeQuadricFromE1E2(ScalarType e1[5], ScalarType e2[5], ScalarType p[5] )
+void ComputeQuadricFromE1E2(ScalarType e1[5], ScalarType e2[5], ScalarType p[5])
 {
-    // computes A
-    a[0] = 1;
-    a[1] = 0;
-    a[2] = 0;
-    a[3] = 0;
-    a[4] = 0;
-    a[5] = 1;
-    a[6] = 0;
-    a[7] = 0;
-    a[8] = 0;
-    a[9] = 1;
-    a[10] = 0;
-    a[11] = 0;
-    a[12] = 1;
-    a[13] = 0;
-    a[14] = 1;
+	// computes A(Identity Matrix)
+	a[0] = 1;
+	a[1] = 0;
+	a[2] = 0;
+	a[3] = 0;
+	a[4] = 0;
+	a[5] = 1;
+	a[6] = 0;
+	a[7] = 0;
+	a[8] = 0;
+	a[9] = 1;
+	a[10] = 0;
+	a[11] = 0;
+	a[12] = 1;
+	a[13] = 0;
+	a[14] = 1;
 
-        ScalarType tmpsymmat[15];  // a compactly stored 5x5 symmetric matrix.
-    math::symprod_vvt5(tmpsymmat,e1);
-    math::sub_symmat5(a,tmpsymmat);
-    math::symprod_vvt5(tmpsymmat,e2);
-    math::sub_symmat5(a,tmpsymmat);
+	// a compactly stored 5x5 symmetric matrix.
+	// a = I - e1*e1^T - e2*e2^T , Í¶Ó°¾ØÕó,ÃÝµÈ
+	ScalarType tmpsymmat[15];
+	math::symprod_vvt5(tmpsymmat, e1);
+	math::sub_symmat5(a, tmpsymmat);
+	math::symprod_vvt5(tmpsymmat, e2);
+	math::sub_symmat5(a, tmpsymmat);
 
-        ScalarType pe1;
-        ScalarType pe2;
+	ScalarType pe1;
+	ScalarType pe2;
 
-    pe1 = math::inproduct5(p,e1);
-    pe2 = math::inproduct5(p,e2);
+	pe1 = math::inproduct5(p, e1);
+	pe2 = math::inproduct5(p, e2);
 
-    //  computes b
-        ScalarType tmpvec[5];
+	//  computes b
+	ScalarType tmpvec[5];
 
-    tmpvec[0] = pe1*e1[0] + pe2*e2[0];
-    tmpvec[1] = pe1*e1[1] + pe2*e2[1];
-    tmpvec[2] = pe1*e1[2] + pe2*e2[2];
-    tmpvec[3] = pe1*e1[3] + pe2*e2[3];
-    tmpvec[4] = pe1*e1[4] + pe2*e2[4];
+	tmpvec[0] = pe1*e1[0] + pe2*e2[0];
+	tmpvec[1] = pe1*e1[1] + pe2*e2[1];
+	tmpvec[2] = pe1*e1[2] + pe2*e2[2];
+	tmpvec[3] = pe1*e1[3] + pe2*e2[3];
+	tmpvec[4] = pe1*e1[4] + pe2*e2[4];
 
-    math::sub_vec5(tmpvec,p,b);
+	math::sub_vec5(tmpvec, p, b);
 
-    //  computes c
-    c = math::inproduct5(p,p)-pe1*pe1-pe2*pe2;
+	//  computes c
+	c = math::inproduct5(p, p) - pe1*pe1 - pe2*pe2;
 }
 
   static bool Gauss55( ScalarType x[], ScalarType C[5][5+1] )
