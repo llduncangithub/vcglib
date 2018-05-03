@@ -396,8 +396,16 @@ void ComputeE1E2 (const ScalarType p[5],	const	ScalarType q[5],	const	ScalarType
 
         //  computes e2
         math::sub_vec5(r,p,diffe);
+#if 0   //e1*diffe^T*e1
         math::outproduct5(e1,diffe,tmpmat);
         math::prod_matvec5(tmpmat,e1,tmpvec);
+#else   //e1*e1^T*diffe
+		//先求投影到e1上的正交投影矩阵
+		math::outproduct5(e1, e1, tmpmat);
+		//再求diffe在e1上的投影向量
+		math::prod_matvec5(tmpmat, diffe, tmpvec);
+#endif
+		//diffe减去投影向量,得到误差向量e2
         math::sub_vec5(diffe,tmpvec,e2);
         math::normalize_vec5(e2);
 }
